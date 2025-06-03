@@ -4,6 +4,8 @@ import {
     addEdge,
     Connection,
     Edge,
+    applyEdgeChanges,
+    EdgeChange,
     useNodesState,
     useEdgesState,
     useReactFlow,
@@ -11,11 +13,14 @@ import {
 } from '@xyflow/react';
 
 import '@xyflow/react/dist/style.css';
+import { useDeleteSelection } from './hooks/useDeleteSelection.ts'; // adjust path
 
 export default function FlowCanvas() {
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
     const { project } = useReactFlow();
+
+    useDeleteSelection(); // defaults to ['Delete']
 
     const addNode = useCallback(() => {
         const id = `${+new Date()}`;
