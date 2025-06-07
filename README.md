@@ -2,6 +2,23 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Requirements
+- Node.js (version 14 or higher)
+- npm (version 6 or higher)
+- The following npm packages are required:
+    - `@xyflow/react` (version 12.6.4 or higher)
+    - `@testing-library/jest-dom` (version 6.6.3 or higher)
+    - `@testing-library/react` (version 16.3.0 or higher)
+    - `@testing-library/user-event` (version 13.5.0 or higher)
+    - `flowbite` (version 3.1.2 or higher)
+    - `flowbite-react` (version 0.11.7 or higher)
+    - `papaparse` (version 5.5.3 or higher)
+    - `react` (version 19.1.0 or higher)
+    - `react-dom` (version 19.1.0 or higher)
+    - `react-icons` (version 5.5.0 or higher)
+    - `react-scripts` (version 5.0.1 or higher)
+    - `web-vitals` (version 2.1.4 or higher)
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -68,3 +85,14 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+### TODO
+1. Save and restore graph state (import/export to/from local storage in fixed format - json?)
+2. Add more node types
+3. Multiple tabs - one for resource definition, another for flow creation - https://flowbite-react.com/docs/components/tabs
+4. File I/O -Integrate with CSV data
+5. Python script template for input/output (pandas library)
+6. Multiple input/multiple output
+7. Add undo/redo actions
+8. Sidebar - https://flowbite-react.com/docs/components/sidebar#

@@ -22,8 +22,8 @@ export default function FlowCanvas() {
 
     useDeleteSelection(); // defaults to ['Delete']
 
-    const addNode = useCallback(() => {
-        const id = `${+new Date()}`;
+    const addFlowNode = useCallback(() => {
+        const id = 'flow_' + `${+new Date().getSeconds()}`;
         const position = { x: Math.random() * 400, y: Math.random() * 400 };
 
         const newNode = {
@@ -43,6 +43,29 @@ export default function FlowCanvas() {
         setNodes((nds) => [...nds, newNode]);
     }, [project, setNodes]);
 
+    const addResourceNode = useCallback(() => {
+        const id = 'res_' + `${+new Date().getSeconds()}`;
+        const position = { x: Math.random() * 400, y: Math.random() * 400 };
+
+        const newNode = {
+            id,
+            type: 'default',
+            position,
+            data: { label: `Node ${id}` },
+            style: {
+                backgroundColor: '#e5e6d5',
+                color: '#333',
+                border: '1px solid #222138',
+                width: 200,
+                zIndex: 10
+            },
+        };
+
+        setNodes((nds) => [...nds, newNode]);
+    }, [project, setNodes]);
+
+
+
     // This gets called when a new connection (edge) is created
     const onConnect = useCallback(
         (params: Edge | Connection) => setEdges((eds) => addEdge(params, eds)),
@@ -53,10 +76,17 @@ export default function FlowCanvas() {
     return (
         <div style={{ width: '100vw', height: '100vh' }}>
             <button
-                onClick={addNode}
+                onClick={addFlowNode}
                 style={{ position: 'absolute', zIndex: 10, top: "60%", left: 10 }}
             >
-                ➕ Add Node
+                ➕ Add Flow Node
+            </button>
+
+            <button
+                onClick={addResourceNode}
+                style={{ position: 'absolute', zIndex: 10, top: "40%", left: 10 }}
+            >
+                ➕ Add Resource Node
             </button>
 
             <ReactFlow
