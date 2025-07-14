@@ -1,0 +1,334 @@
+{
+  "tables": [
+    {
+      "schema": {
+        "id": "1751141734502",
+        "name": "elements",
+        "columns": [
+          {
+            "id": "1",
+            "name": "name",
+            "type": "string",
+            "required": true,
+            "unique": true,
+            "isList": false
+          },
+          {
+            "id": "1751141710253",
+            "name": "freq",
+            "type": "number",
+            "required": true,
+            "unique": false,
+            "isList": false
+          },
+          {
+            "id": "1751141711317",
+            "name": "domain",
+            "type": "string",
+            "required": true,
+            "unique": false,
+            "isList": false
+          }
+        ],
+        "position": {
+          "x": 340,
+          "y": 80
+        }
+      },
+      "data": [
+        {
+          "1": "ip1",
+          "id": "1751141882061",
+          "1751141710253": 100,
+          "1751141711317": "test1"
+        },
+        {
+          "1": "ip2",
+          "id": "1751141889579",
+          "1751141710253": 200,
+          "1751141711317": "test2"
+        }
+      ]
+    },
+    {
+      "schema": {
+        "id": "1751141826959",
+        "name": "groups",
+        "columns": [
+          {
+            "id": "1",
+            "name": "name",
+            "type": "string",
+            "required": true,
+            "unique": true,
+            "isList": false
+          },
+          {
+            "id": "1751141753884",
+            "name": "element_masters",
+            "type": "string",
+            "required": true,
+            "unique": false,
+            "isList": true
+          },
+          {
+            "id": "1751141754526",
+            "name": "group_masters",
+            "type": "string",
+            "required": true,
+            "unique": false,
+            "isList": true
+          }
+        ],
+        "position": {
+          "x": -60,
+          "y": 60
+        }
+      },
+      "data": [
+        {
+          "1": "group1",
+          "id": "1751142033922",
+          "1751141753884": [
+            "ip1"
+          ],
+          "1751141754526": [
+            "group1"
+          ]
+        },
+        {
+          "1": "group2",
+          "id": "1751142061095",
+          "1751141753884": [
+            "ip2",
+            "ip1"
+          ],
+          "1751141754526": [
+            "group1"
+          ]
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "id": "1751141848278",
+      "fromTableId": "1751141826959",
+      "fromColumnId": "1751141753884",
+      "toTableId": "1751141734502",
+      "toColumnId": "1",
+      "type": "one-to-many"
+    },
+    {
+      "id": "1751142039128",
+      "fromTableId": "1751141826959",
+      "fromColumnId": "1751141754526",
+      "toTableId": "1751141826959",
+      "toColumnId": "1",
+      "type": "one-to-many"
+    }
+  ],
+  "flowTabs": [
+    {
+      "id": "tab-1",
+      "name": "Data Pipeline 1",
+      "nodes": [
+        {
+          "id": "data-1751206486815",
+          "type": "default",
+          "position": {
+            "x": 107.33499891184462,
+            "y": 201.80838201500404
+          },
+          "data": {
+            "label": "elements_fre",
+            "description": "A new data (elements) node",
+            "color": "#10B981",
+            "category": "Storage",
+            "createdAt": "2025-06-29T14:14:46.814Z",
+            "updatedAt": "2025-06-29T14:15:12.679Z",
+            "tableName": "elements",
+            "tableColumns": [
+              {
+                "id": "1",
+                "name": "name",
+                "dataType": "string",
+                "description": "name"
+              },
+              {
+                "id": "1751141710253",
+                "name": "freq",
+                "dataType": "number",
+                "description": "freq"
+              }
+            ]
+          },
+          "measured": {
+            "width": 150,
+            "height": 130
+          },
+          "selected": false
+        },
+        {
+          "id": "process-1751206488381",
+          "type": "default",
+          "position": {
+            "x": 225,
+            "y": 510
+          },
+          "data": {
+            "label": "Process",
+            "description": "A new process node",
+            "color": "#3B82F6",
+            "category": "Transform",
+            "createdAt": "2025-06-29T14:14:48.381Z",
+            "updatedAt": "2025-06-29T14:16:12.237Z",
+            "inputColumns": [],
+            "outputColumns": [
+              {
+                "id": "col-1751206488381",
+                "name": "processed_column",
+                "dataType": "string",
+                "description": "Processed output column"
+              }
+            ],
+            "processLogic": "Transform input data",
+            "pythonCode": "# Generated Python code for Process\nimport pandas as pd\n\n# Load elements_fre data\nelements = pd.read_csv('elements.csv')\n# Load Data (groups) data\ngroups = pd.read_csv('groups.csv')\n\n# Process logic: Transform input data\ngroups = pd.concat([elements, groups], axis=1)\n\n# Apply output column transformations\n\n# Save output to target data node\ngroups.to_csv('groups.csv', index=False)\nprint(f\"Processed data saved to groups.csv\")\nprint(f\"Output shape: {groups.shape}\")\nprint(f\"Output columns: {list(groups.columns)}\")"
+          },
+          "measured": {
+            "width": 150,
+            "height": 126
+          },
+          "selected": true,
+          "dragging": false
+        },
+        {
+          "id": "data-1751206493686",
+          "type": "default",
+          "position": {
+            "x": 285,
+            "y": 795
+          },
+          "data": {
+            "label": "Data (groups)",
+            "description": "A new data (groups) node",
+            "color": "#10B981",
+            "category": "Storage",
+            "createdAt": "2025-06-29T14:14:53.686Z",
+            "updatedAt": "2025-06-29T14:15:39.204Z",
+            "tableName": "groups",
+            "tableColumns": [
+              {
+                "id": "1751141753884",
+                "name": "element_masters",
+                "dataType": "string",
+                "description": "element_masters"
+              }
+            ]
+          },
+          "measured": {
+            "width": 150,
+            "height": 118
+          },
+          "selected": false,
+          "dragging": false
+        },
+        {
+          "id": "data-1751206549163",
+          "type": "default",
+          "position": {
+            "x": 540,
+            "y": 255
+          },
+          "data": {
+            "label": "Data (groups)",
+            "description": "A new data (groups) node",
+            "color": "#10B981",
+            "category": "Storage",
+            "createdAt": "2025-06-29T14:15:49.163Z",
+            "updatedAt": "2025-06-29T14:16:07.019Z",
+            "tableName": "groups",
+            "tableColumns": [
+              {
+                "id": "1",
+                "name": "name",
+                "dataType": "string",
+                "description": "name"
+              }
+            ]
+          },
+          "measured": {
+            "width": 150,
+            "height": 118
+          },
+          "dragging": false,
+          "selected": false
+        }
+      ],
+      "edges": [
+        {
+          "animated": true,
+          "style": {
+            "stroke": "#6b7280",
+            "strokeWidth": 2,
+            "strokeDasharray": "0"
+          },
+          "source": "data-1751206486815",
+          "sourceHandle": "output",
+          "target": "process-1751206488381",
+          "targetHandle": "input",
+          "id": "edge-data-1751206486815-process-1751206488381-1751206522387",
+          "markerEnd": {
+            "type": "arrowclosed",
+            "color": "#6b7280",
+            "width": 20,
+            "height": 20
+          },
+          "selected": false
+        },
+        {
+          "animated": true,
+          "style": {
+            "stroke": "#6b7280",
+            "strokeWidth": 2,
+            "strokeDasharray": "0"
+          },
+          "source": "process-1751206488381",
+          "sourceHandle": "output",
+          "target": "data-1751206493686",
+          "targetHandle": "input",
+          "id": "edge-process-1751206488381-data-1751206493686-1751206543559",
+          "markerEnd": {
+            "type": "arrowclosed",
+            "color": "#6b7280",
+            "width": 20,
+            "height": 20
+          }
+        },
+        {
+          "animated": true,
+          "style": {
+            "stroke": "#6b7280",
+            "strokeWidth": 2,
+            "strokeDasharray": "0"
+          },
+          "source": "data-1751206549163",
+          "sourceHandle": "output",
+          "target": "process-1751206488381",
+          "targetHandle": "input",
+          "id": "edge-data-1751206549163-process-1751206488381-1751206570632",
+          "markerEnd": {
+            "type": "arrowclosed",
+            "color": "#6b7280",
+            "width": 20,
+            "height": 20
+          }
+        }
+      ],
+      "createdAt": "2025-06-29T14:07:33.412Z"
+    }
+  ],
+  "activeTabId": "data-import-export",
+  "exportDate": "2025-06-29T14:16:18.480Z",
+  "version": "2.0"
+}

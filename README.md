@@ -1,98 +1,333 @@
-# Getting Started with Create React App
+# Data Pipeline Builder
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This application is a powerful tool for designing and managing data processing pipelines. It allows you to visualize data flows, define table schemas, manage table data, and generate Python code for data transformations.
 
-## Requirements
-- Node.js (version 14 or higher)
-- npm (version 6 or higher)
-- The following npm packages are required:
-    - `@xyflow/react` (version 12.6.4 or higher)
-    - `@testing-library/jest-dom` (version 6.6.3 or higher)
-    - `@testing-library/react` (version 16.3.0 or higher)
-    - `@testing-library/user-event` (version 13.5.0 or higher)
-    - `flowbite` (version 3.1.2 or higher)
-    - `flowbite-react` (version 0.11.7 or higher)
-    - `papaparse` (version 5.5.3 or higher)
-    - `react` (version 19.1.0 or higher)
-    - `react-dom` (version 19.1.0 or higher)
-    - `react-icons` (version 5.5.0 or higher)
-    - `react-scripts` (version 5.0.1 or higher)
-    - `web-vitals` (version 2.1.4 or higher)
+## Features
 
-## Available Scripts
+*   **Interactive Pipeline Canvas**: Drag-and-drop interface to build data pipelines using Data and Process nodes.
+*   **Schema Designer**: Visually design database schemas, define tables, columns, and relationships.
+*   **Table Editor**: Directly view and edit data within your defined tables.
+*   **Data Import/Export**: Import and export complete pipeline configurations (nodes, edges, tabs) as well as individual table data (JSON/CSV).
+*   **Modular Data Storage**: Easily switch between different data storage solutions (e.g., local storage, SQL database) without modifying core application logic.
+*   **Python Code Generation**: Generate Python code snippets for data transformation logic defined in Process nodes.
 
-In the project directory, you can run:
+## Setup and Installation
 
-### `npm start`
+To get this project up and running on your local machine, follow these steps:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Prerequisites
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+This project requires Node.js and npm (Node Package Manager) to be installed.
 
-### `npm test`
+**How to Install Node.js and npm:**
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+If you don't have Node.js and npm installed, you can download the official installer from the [Node.js website](https://nodejs.org/en/download/).
 
-### `npm run build`
+1.  **Download the Installer**: Visit the [Node.js Downloads page](https://nodejs.org/en/download/) and download the LTS (Long Term Support) version installer for your operating system (Windows, macOS, or Linux). The installer includes npm.
+2.  **Run the Installer**:
+    *   **Windows**: Double-click the `.msi` file and follow the prompts. Accept the license agreement, choose the installation location (default is usually fine), and ensure "Node.js runtime" and "npm package manager" components are selected.
+    *   **macOS**: Double-click the `.pkg` file and follow the installation wizard.
+    *   **Linux**: Follow the specific installation instructions for your distribution on the Node.js website.
+3.  **Verify Installation**: Open a new terminal or command prompt and run the following commands to verify that Node.js and npm are installed correctly:
+    ```bash
+    node -v
+    npm -v
+    ```
+    You should see the installed versions printed in the console.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Project Setup
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1.  **Clone the Repository**:
+    ```bash
+    git clone <repository_url>
+    cd <repository_directory>
+    ```
+    (Replace `<repository_url>` and `<repository_directory>` with your actual repository details.)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2.  **Install Dependencies**:
+    Navigate to the project directory in your terminal and install the required Node.js packages:
+    ```bash
+    npm install
+    ```
 
-### `npm run eject`
+3.  **Run the Development Server**:
+    Once the dependencies are installed, you can start the development server:
+    ```bash
+    npm run dev
+    ```
+    This will typically start the application on `http://localhost:5173` (or another available port).
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Source Files Overview
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The application is organized into a modular structure with clear separation of concerns. Here's an overview of the key source files and their purposes:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Core Application Files
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+#### `src/App.tsx`
+The main application component that orchestrates the entire application. It manages:
+- Tab state and navigation between different views (Pipeline, Table Editor, Schema Designer, Import/Export)
+- Node and edge management for the pipeline canvas
+- Integration between different components and data flow
+- Header with application branding and status information
 
-## Learn More
+#### `src/main.tsx`
+The application entry point that renders the React app and sets up the root component.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Components (`src/components/`)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+#### Pipeline & Flow Components
+- **`FlowCanvas.tsx`**: The main pipeline canvas using React Flow. Handles node positioning, connections, undo/redo functionality, and visual pipeline representation.
+- **`CustomNode.tsx`**: Defines the visual appearance and behavior of individual nodes (Data and Process nodes) in the pipeline.
+- **`NodePalette.tsx`**: Sidebar component for adding new nodes to the pipeline. Provides node templates and table selection.
+- **`Sidebar.tsx`**: Properties panel for selected nodes. Allows editing node properties, table configurations, and process logic.
+- **`UndoRedoControls.tsx`**: Toolbar component providing undo/redo functionality with keyboard shortcuts.
 
-### Code Splitting
+#### Schema & Table Management
+- **`SchemaDesigner.tsx`**: Visual database schema designer. Allows creating tables, defining relationships, and managing the overall database structure.
+- **`SchemaTableNode.tsx`**: Visual representation of tables in the schema designer with connection handles for relationships.
+- **`TableEditor.tsx`**: Interface for viewing and editing actual table data. Provides CRUD operations on table rows.
+- **`CreateTableForm.tsx`**: Form component for creating new tables with column definitions.
+- **`EditTableSchemaForm.tsx`**: Form for modifying existing table schemas and structures.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+#### Data Management
+- **`ColumnEditorRow.tsx`**: Individual row component for editing column properties (name, type, constraints).
+- **`ColumnInputField.tsx`**: Smart input field that adapts based on column type and foreign key relationships.
+- **`DataImportExport.tsx`**: Comprehensive import/export interface supporting both individual table data and complete pipeline configurations.
 
-### Analyzing the Bundle Size
+#### Navigation & Layout
+- **`TabBar.tsx`**: Tab navigation component supporting both regular pipeline tabs and special function tabs (Table Editor, Schema Designer, Import/Export).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Context & State Management (`src/context/`)
 
-### Making a Progressive Web App
+#### `TableManagementContext.tsx`
+Central state management for all table-related operations. Provides:
+- Table schema and data state
+- CRUD operations for tables, rows, and relationships
+- Integration with the data service layer
+- Shared state across all components
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Services (`src/services/`)
 
-### Advanced Configuration
+#### `IDataService.ts`
+Interface defining the contract for data persistence operations. Enables easy switching between different storage backends.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+#### `LocalStorageDataService.ts`
+Default implementation using browser localStorage. Handles:
+- Data serialization/deserialization
+- Backward compatibility with different data formats
+- Error handling and data validation
 
-### Deployment
+### Types (`src/types/`)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+#### `index.ts`
+Core type definitions for:
+- Table schemas and column definitions
+- Database relationships
+- Table data structures
+- Context interfaces
 
-### `npm run build` fails to minify
+#### `flow.ts`
+Type definitions specific to the pipeline flow:
+- Node and edge structures
+- Tab management
+- Pipeline-specific data types
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Utilities (`src/utils/`)
 
+#### `flowUtils.ts`
+Utility functions for pipeline operations:
+- Node creation and positioning
+- Python code generation from process nodes
+- Node type definitions and templates
 
-### TODO
-1. Save and restore graph state (import/export to/from local storage in fixed format - json?)
-2. Add more node types
-3. Multiple tabs - one for resource definition, another for flow creation - https://flowbite-react.com/docs/components/tabs
-4. File I/O -Integrate with CSV data
-5. Python script template for input/output (pandas library)
-6. Multiple input/multiple output
-7. Add undo/redo actions
-8. Sidebar - https://flowbite-react.com/docs/components/sidebar#
+#### `dataUtils.ts`
+Data processing utilities:
+- CSV import/export functionality
+- JSON serialization with version handling
+- Data validation and type conversion
+- Backward compatibility handling
+
+#### `colorUtils.ts`
+Color management for visual elements:
+- Consistent color assignment for relationships
+- Hash-based color generation for table pairs
+
+### Hooks (`src/hooks/`)
+
+#### `useUndoRedo.ts`
+Custom hook providing undo/redo functionality:
+- State history management
+- Keyboard shortcut handling
+- Optimized state saving and restoration
+
+### Configuration Files
+
+#### `tailwind.config.js`
+Tailwind CSS configuration including Flowbite integration for consistent UI components.
+
+#### `vite.config.ts`
+Vite build tool configuration with React plugin and optimization settings.
+
+#### `tsconfig.json` & related
+TypeScript configuration files ensuring type safety and proper compilation.
+
+### Key Architectural Patterns
+
+1. **Separation of Concerns**: Each component has a single, well-defined responsibility
+2. **Data Service Abstraction**: Storage layer is completely abstracted through interfaces
+3. **Context-Based State Management**: Centralized state management without external dependencies
+4. **Type Safety**: Comprehensive TypeScript types ensure data integrity
+5. **Modular Design**: Components can be easily modified or replaced without affecting others
+
+This architecture enables easy maintenance, testing, and extension of the application while maintaining clean separation between UI, business logic, and data persistence layers.
+
+## Switching Data Storage
+
+The application is designed with a modular data storage layer, allowing you to easily switch between different data persistence mechanisms without altering the main application logic. This is achieved through the `IDataService` interface.
+
+### Understanding the Abstraction
+
+*   **`src/services/IDataService.ts`**: This file defines the `IDataService` interface, which outlines all the necessary methods for interacting with your data (e.g., `createTable`, `addRow`, `addRelationship`, `loadData`).
+*   **`src/services/LocalStorageDataService.ts`**: This is the default implementation that uses the browser's `localStorage` for data persistence.
+*   **`src/context/TableManagementContext.tsx`**: The `TableManagementProvider` component in this file accepts a `dataService` prop. All data operations within the application (via the `useTableManagement` hook) call methods on this `dataService` instance.
+
+### Example: Switching to a SQL Database Service (Conceptual)
+
+Let's say you want to switch from `localStorage` to a SQL database (e.g., via a REST API).
+
+1.  **Create a New Data Service Implementation**:
+    You would create a new file, for example, `src/services/SqlDataService.ts`, that implements the `IDataService` interface. This class would contain the logic to make API calls to your backend, which in turn interacts with the SQL database.
+
+    ```typescript
+    // src/services/SqlDataService.ts (Conceptual Example)
+    import { IDataService } from './IDataService';
+    import { TableData, DatabaseSchema, TableSchema, Relationship } from '../types';
+
+    export class SqlDataService implements IDataService {
+      private API_BASE_URL = 'http://localhost:3000/api'; // Replace with your backend API URL
+
+      async loadData(): Promise<{ tableData: TableData[]; schema: DatabaseSchema }> {
+        const response = await fetch(`${this.API_BASE_URL}/data`);
+        if (!response.ok) throw new Error('Failed to load data from API');
+        return response.json();
+      }
+
+      async saveTable(tableData: TableData): Promise<void> {
+        const response = await fetch(`${this.API_BASE_URL}/tables`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(tableData),
+        });
+        if (!response.ok) throw new Error('Failed to save table via API');
+      }
+
+      async updateTable(tableId: string, updates: Partial<TableSchema>): Promise<void> {
+        const response = await fetch(`${this.API_BASE_URL}/tables/${tableId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(updates),
+        });
+        if (!response.ok) throw new Error('Failed to update table via API');
+      }
+
+      async deleteTable(tableId: string): Promise<void> {
+        const response = await fetch(`${this.API_BASE_URL}/tables/${tableId}`, {
+          method: 'DELETE',
+        });
+        if (!response.ok) throw new Error('Failed to delete table via API');
+      }
+
+      async addRow(tableId: string, row: any): Promise<void> {
+        const response = await fetch(`${this.API_BASE_URL}/tables/${tableId}/rows`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(row),
+        });
+        if (!response.ok) throw new Error('Failed to add row via API');
+      }
+
+      async updateRow(tableId: string, rowId: string, updates: any): Promise<void> {
+        const response = await fetch(`${this.API_BASE_URL}/tables/${tableId}/rows/${rowId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(updates),
+        });
+        if (!response.ok) throw new Error('Failed to update row via API');
+      }
+
+      async deleteRow(tableId: string, rowId: string): Promise<void> {
+        const response = await fetch(`${this.API_BASE_URL}/tables/${tableId}/rows/${rowId}`, {
+          method: 'DELETE',
+        });
+        if (!response.ok) throw new Error('Failed to delete row via API');
+      }
+
+      async addRelationship(relationship: Relationship): Promise<void> {
+        const response = await fetch(`${this.API_BASE_URL}/relationships`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(relationship),
+        });
+        if (!response.ok) throw new Error('Failed to add relationship via API');
+      }
+
+      async deleteRelationship(relationshipId: string): Promise<void> {
+        const response = await fetch(`${this.API_BASE_URL}/relationships/${relationshipId}`, {
+          method: 'DELETE',
+        });
+        if (!response.ok) throw new Error('Failed to delete relationship via API');
+      }
+
+      async saveAllData(tableData: TableData[], schema: DatabaseSchema): Promise<void> {
+        const response = await fetch(`${this.API_BASE_URL}/save-all`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ tableData, schema }),
+        });
+        if (!response.ok) throw new Error('Failed to save all data via API');
+      }
+    }
+    ```
+
+2.  **Inject the New Service into `TableManagementProvider`**:
+    In your `src/App.tsx` file, you would import your new `SqlDataService` and pass an instance of it to the `TableManagementProvider`.
+
+    ```typescript
+    // src/App.tsx
+    import React, { useState, useCallback } from 'react';
+    // ... other imports ...
+    import { TableManagementProvider } from './context/TableManagementContext';
+    import { SqlDataService } from './services/SqlDataService'; // Import your new service
+
+    // Instantiate your new data service
+    const sqlDataService = new SqlDataService();
+
+    // Main App Content Component (remains unchanged)
+    function AppContent() {
+      // ... existing AppContent logic ...
+    }
+
+    // Main App Component with Provider
+    function App() {
+      return (
+        // Pass your new data service instance here
+        <TableManagementProvider dataService={sqlDataService}>
+          <AppContent />
+        </TableManagementProvider>
+      );
+    }
+
+    export default App;
+    ```
+
+By making these changes, your application will now use the `SqlDataService` for all data operations, demonstrating the power of the abstracted data layer. No other components (like `TableEditor`, `SchemaDesigner`, etc.) need to be modified, as they interact with the data layer through the `useTableManagement` hook, which remains consistent.
+
+## Technologies Used
+
+*   **React**: A JavaScript library for building user interfaces.
+*   **TypeScript**: A typed superset of JavaScript that compiles to plain JavaScript.
+*   **Tailwind CSS**: A utility-first CSS framework for rapidly building custom designs.
+*   **React Flow**: A library for building node-based editors and interactive diagrams.
+*   **Flowbite React**: React components built with Tailwind CSS from Flowbite.
+*   **Lucide React**: A collection of beautiful and customizable open-source icons.
+*   **PapaParse**: A powerful CSV (and delimited text) parser for JavaScript.
