@@ -9,6 +9,13 @@ export const nodeTypes: NodeType[] = [
     category: 'Storage'
   },
   {
+    id: 'misc-data',
+    label: 'Misc Data',
+    color: '#F59E0B',
+    icon: 'FileText',
+    category: 'Miscellaneous'
+  },
+  {
     id: 'process',
     label: 'Process',
     color: '#3B82F6',
@@ -54,6 +61,18 @@ export const createNewNode = (
             description: 'Sample column'
           }
         ]
+      }
+    };
+  }
+
+  if (type.id === 'misc-data') {
+    return {
+      ...baseNode,
+      data: {
+        ...baseNode.data,
+        content: 'Enter your data content here...',
+        dataType: 'string',
+        format: 'text'
       }
     };
   }

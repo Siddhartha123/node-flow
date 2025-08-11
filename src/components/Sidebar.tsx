@@ -187,6 +187,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   }
 
   const isDataNode = selectedNode.data.category === 'Storage';
+  const isMiscDataNode = selectedNode.data.category === 'Miscellaneous';
   const isProcessNode = selectedNode.data.category === 'Transform';
 
   // Get available table names
@@ -319,6 +320,74 @@ const Sidebar: React.FC<SidebarProps> = ({
                       </div>
                     </div>
                   ))}
+                </div>
+              </div>
+            </div>
+          </Card>
+        )}
+
+        {/* Misc Data Node Specific Properties */}
+        {isMiscDataNode && (
+          <Card className="shadow-sm">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h4 className="text-sm font-medium text-gray-700 flex items-center">
+                  <FileText className="w-4 h-4 mr-2" />
+                  Miscellaneous Data Configuration
+                </h4>
+              </div>
+
+              <div>
+                <Label htmlFor="data-type" className="mb-2 block">Data Type</Label>
+                <Select
+                  id="data-type"
+                  value={selectedNode.data.dataType || 'string'}
+                  onChange={(e) => onNodeUpdate(selectedNode.id, { 
+                    dataType: e.target.value,
+                    updatedAt: new Date().toISOString()
+                  })}
+                >
+                  <option value="string">String</option>
+                  <option value="number">Number</option>
+                  <option value="boolean">Boolean</option>
+                  <option value="date">Date</option>
+                  <option value="json">JSON</option>
+                  <option value="xml">XML</option>
+                  <option value="csv">CSV</option>
+                </Select>
+              </div>
+
+              <div>
+                <Label htmlFor="data-format" className="mb-2 block">Format</Label>
+                <Select
+                  id="data-format"
+                  value={selectedNode.data.format || 'text'}
+                  onChange={(e) => onNodeUpdate(selectedNode.id, { 
+                    format: e.target.value,
+                    updatedAt: new Date().toISOString()
+                  })}
+                >
+                  <option value="text">Plain Text</option>
+                  <option value="structured">Structured</option>
+                  <option value="binary">Binary</option>
+                  <option value="encoded">Encoded</option>
+                </Select>
+              </div>
+
+              <div>
+                <Label htmlFor="data-content" className="mb-2 block">Content</Label>
+                <Textarea
+                  id="data-content"
+                  value={selectedNode.data.content || ''}
+                  onChange={(e) => onNodeUpdate(selectedNode.id, { 
+                    content: e.target.value,
+                    updatedAt: new Date().toISOString()
+                  })}
+                  rows={6}
+                  placeholder="Enter your data content here..."
+                />
+                <div className="text-xs text-gray-500 mt-1">
+                  Enter any miscellaneous data content (text, JSON, CSV, etc.)
                 </div>
               </div>
             </div>

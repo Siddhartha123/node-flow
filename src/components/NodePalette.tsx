@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { nodeTypes } from '../utils/flowUtils';
 import { NodeType, TableColumn } from '../types/flow';
 import { Button, Card, Modal, Label, Select } from 'flowbite-react';
-import { Database, Zap, Plus } from 'lucide-react';
+import { Database, Zap, Plus, FileText } from 'lucide-react';
 
 interface NodePaletteProps {
   onAddNode: (nodeType: NodeType, tableName?: string, tableColumns?: TableColumn[]) => void;
@@ -54,6 +54,13 @@ const NodePalette: React.FC<NodePaletteProps> = ({ onAddNode, availableTables })
     }
   };
 
+  const handleMiscDataNodeClick = () => {
+    const miscDataNodeType = nodeTypes.find(type => type.id === 'misc-data');
+    if (miscDataNodeType) {
+      onAddNode(miscDataNodeType);
+    }
+  };
+
   const tableNames = Object.keys(availableTables);
 
   return (
@@ -85,6 +92,32 @@ const NodePalette: React.FC<NodePaletteProps> = ({ onAddNode, availableTables })
                   </div>
                   <div className="text-xs text-gray-500">
                     Storage • {tableNames.length > 0 ? `${tableNames.length} tables available` : 'Create table schema'}
+                  </div>
+                </div>
+              </div>
+            </Button>
+
+            {/* Misc Data Node */}
+            <Button
+              onClick={handleMiscDataNodeClick}
+              color="gray"
+              size="sm"
+              className="w-full justify-start transition-all hover:scale-105 hover:shadow-md"
+              style={{ 
+                borderLeft: `4px solid #F59E0B`,
+                borderRadius: '0.5rem'
+              }}
+            >
+              <div className="flex items-center space-x-3 w-full">
+                <div style={{ color: '#F59E0B' }}>
+                  <FileText className="w-4 h-4" />
+                </div>
+                <div className="text-left">
+                  <div className="font-medium text-gray-800">
+                    Misc Data Node
+                  </div>
+                  <div className="text-xs text-gray-500">
+                    Miscellaneous • Custom data content
                   </div>
                 </div>
               </div>

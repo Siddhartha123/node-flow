@@ -185,14 +185,14 @@ const FlowCanvas: React.FC<FlowCanvasProps> = ({
     // 2. Process → Data (Process outputs to data storage)
     // Invalid: Process → Process (direct process chaining not allowed)
     const isValidSourceToTarget = 
-      (sourceNode.data.category === 'Storage' && targetNode.data.category === 'Transform') ||
-      (sourceNode.data.category === 'Transform' && targetNode.data.category === 'Storage');
+      ((sourceNode.data.category === 'Storage' || sourceNode.data.category === 'Miscellaneous') && targetNode.data.category === 'Transform') ||
+      (sourceNode.data.category === 'Transform' && (targetNode.data.category === 'Storage' || targetNode.data.category === 'Miscellaneous'));
 
     // Ensure we're connecting from output to input handles
     const sourceHandle = connection.sourceHandle || 'output';
     const targetHandle = connection.targetHandle || 'input';
 
-    return isValidSourceToTarget && sourceHandle === 'output' && targetHandle === 'input';
+    return isValidSourceToTarget && (sourceHandle === 'output' || sourceHandle === 'output-right') && (targetHandle === 'input' || targetHandle === 'input-left');
   }, [nodes]);
 
   const onNodeClick = useCallback(

@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { Handle, Position, NodeProps } from '@xyflow/react';
 import { FlowNode } from '../types/flow';
-import { Database, Zap } from 'lucide-react';
+import { Database, Zap, FileText } from 'lucide-react';
 
 interface CustomNodeProps extends NodeProps {
   data: FlowNode['data'];
@@ -12,6 +12,8 @@ const CustomNode: React.FC<CustomNodeProps> = memo(({ data, selected }) => {
     switch (data.category) {
       case 'Storage':
         return <Database className="w-8 h-4" />;
+      case 'Miscellaneous':
+        return <FileText className="w-8 h-4" />;
       case 'Transform':
         return <Zap className="w-8 h-4" />;
       default:
@@ -20,6 +22,7 @@ const CustomNode: React.FC<CustomNodeProps> = memo(({ data, selected }) => {
   };
 
   const isDataNode = data.category === 'Storage';
+  const isMiscDataNode = data.category === 'Miscellaneous';
   const isProcessNode = data.category === 'Transform';
 
   return (
@@ -46,6 +49,32 @@ const CustomNode: React.FC<CustomNodeProps> = memo(({ data, selected }) => {
         }}
       />
       
+      {/* Left Handle - Target */}
+      <Handle 
+        type="target" 
+        position={Position.Left} 
+        id="input-left"
+        className="w-3 h-3 !bg-gray-400 !border-2 !border-white hover:!bg-blue-500 transition-colors !-left-1.5" 
+        style={{
+          top: '50%',
+          transform: 'translateY(-50%)',
+          zIndex: 10
+        }}
+      />
+      
+      {/* Right Handle - Source */}
+      <Handle 
+        type="source" 
+        position={Position.Right} 
+        id="output-right"
+        className="w-3 h-3 !bg-gray-400 !border-2 !border-white hover:!bg-blue-500 transition-colors !-right-1.5" 
+        style={{
+          top: '50%',
+          transform: 'translateY(-50%)',
+          zIndex: 10
+        }}
+      />
+      
       <div className="p-3">
         {/* Header */}
         <div className="flex items-center space-x-2 mb-2">
@@ -66,13 +95,25 @@ const CustomNode: React.FC<CustomNodeProps> = memo(({ data, selected }) => {
             <div className="text-xs font-medium text-gray-600 mb-1">
               Table: {data.tableName || 'unnamed'}
             </div>
-            <div className="space-y-1">
+            <div className="flex flex-wrap gap-1">
               {data.tableColumns.map((column) => (
-                <div key={column.id} className="flex items-center justify-between text-xs bg-gray-50 px-2 py-1 rounded">
-                  <span className="font-medium text-gray-700 truncate">{column.name}</span>
-                  <span className="text-gray-500 text-xs ml-2 flex-shrink-0">{column.dataType}</span>
+                <div key={column.id} className="text-xs bg-gray-50 px-2 py-1 rounded flex items-center gap-1">
+                  <span className="font-medium text-gray-700">{column.name}</span>
+                  <span className="text-gray-500 text-xs">{column.dataType}</span>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {/* Misc Data Node Content */}
+        {isMiscDataNode && (
+          <div className="space-y-1">
+            <div className="text-xs font-medium text-gray-600 mb-1">
+              Type: {data.dataType || 'string'} 
+            </div>
+            <div className="text-xs font-medium text-gray-600 mb-1">
+              Format: {data.format || 'text'}
             </div>
           </div>
         )}
